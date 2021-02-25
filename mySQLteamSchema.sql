@@ -1,0 +1,26 @@
+DROP DATABASE IF EXISTS mySQLteam_DB;
+CREATE DATABASE mySQLteam_DB;
+
+USE mySQLteam_DB;
+
+CREATE TABLE employee(
+  id INT NOT NULL AUTO_INCREMENT,
+  first_name VARCHAR(30),
+  last_name VARCHAR(30),
+  role_id INT FOREIGN KEY,
+  manager_id INT FOREIGN KEY,
+  PRIMARY KEY (id)
+);
+
+CREATE TABLE department(
+  id INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(30)
+);
+
+CREATE TABLE role(
+  id INT NOT NULL AUTO_INCREMENT, 
+  title VARCHAR(30), 
+  salary DECIMAL, 
+  department_id INT FOREIGN KEY, 
+  PRIMARY KEY (id)
+);

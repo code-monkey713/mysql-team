@@ -1,0 +1,29 @@
+{
+  "name": "mysql-team",
+  "version": "1.0.0",
+  "description": "This is project to connect mySQL using and inquirer. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/code-monkey713/mysql-team.git"
+  },
+  "keywords": [
+    "MySQL",
+    "Inquirer",
+    "employee"
+  ],
+  "author": "Tony Tran",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/code-monkey713/mysql-team/issues"
+  },
+  "homepage": "https://github.com/code-monkey713/mysql-team#readme",
+  "dependencies": {
+    "console.table": "^0.10.0",
+    "inquirer": "^7.3.3",
+    "mysql2": "^2.2.5"
+  }
+}
