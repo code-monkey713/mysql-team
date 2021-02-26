@@ -1,7 +1,6 @@
 const fs = require('fs');
 const inquirer = require('inquirer');
 const questions = require('./questions.js');
-// const buildREADMEmd = require('./template.js');
 const mysql = require('mysql2');
 require('dotenv').config();
 
@@ -13,46 +12,52 @@ const connection = mysql.createConnection({
   database: process.env.DB_NAME,
 });
 
-// async function main() {
-  
-  // try {
-  //   const userData = await inquirer.prompt(questions);
-  //   let color;
-  //   switch(userData.license){
-  //     case 'MIT':
-  //     case 'ISC':
-  //       color = 'green'
-  //       break;
-  //     case 'Apache':
-  //     case 'GNU':
-  //       color = 'blue';
-  //       break;
-  //     default:
-  //       color = 'lightgrey';
-  //       break;
-  //   }
-  //   // const readme = buildREADMEmd(userData, color);
-  //   // fs.writeFileSync('./generated-README.md', readme);
-  //   // console.log('File was successfully written.');
-  // } catch (error) {
-  //   console.log(error);
-  // }
-// }
+const addDepartment = async () => {
+  // const { action } = await inquirer.prompt(questions.welcome);
+  console.log('this is adding a department');
+  main();
+};
 
-// main();
+const addRole = async () => {
+  // const { action } = await inquirer.prompt(questions.welcome);
+  console.log('this is adding a role');
+  main();
+};
+
+const addEmployee = async () => {
+  // const { action } = await inquirer.prompt(questions.welcome);
+  console.log('this is adding an employee');
+  main();
+};
+
+const welcome = async () => {
+  const { action } = await inquirer.prompt(questions.welcome);
+  main();
+};
 
 const main = async () => {
-  
-  const { action } = await inquirer.prompt(questions);
-  console.log(action);
-  // if (action === 'Exit') return;
-
-  // if (action === 'Place a bid') placeABid();
-  // else if (action === 'Post a bid') postABid();
+  const { action } = await inquirer.prompt(questions.action);
+  switch(action){
+    case 'ADD DEPARTMENT': 
+      addDepartment();
+      break;
+    case 'ADD ROLE': 
+      addRole();
+      break;
+    case 'ADD EMPLOYEE': 
+      addEmployee();
+      break;
+    case 'EXIT THE PROGRAM':
+      console.log('Your program has been terminated!');
+      return;
+    default:
+      console.log('Please select an action to perform!')
+      break;
+  }
 };
 
 connection.connect((err) => {
   if (err) throw (err);
   console.log(`Connected on ${connection.threadId}`);
-  main();
+  welcome();
 });

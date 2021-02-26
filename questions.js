@@ -1,15 +1,40 @@
 const actions = [
+  'ADD DEPARTMENT', 
+  'ADD ROLE', 
+  'ADD EMPLOYEE', 
+  'VIEW DEPARTMENTS', 
+  'VIEW ROLES', 
+  'VIEW EMPLOYEES', 
+  'UPDATE EMPLOYEE ROLE',
+  'UPDATE EMPLOYEE MANAGER',
+  'VIEW EMPLOYEES BY MANAGER',
+  'DELETE DEPARTMENT',
+  'DELETE ROLE',
+  'DELETE EMPLOYEE',
+  'VIEW HR BUDGET OF DEPARTMENT',
+  'EXIT THE PROGRAM',
+];
+
+const action = [
   {
-    type: 'list',
-    message: 'Choose a license for this project.',
-    name: 'license',
-    choices: ['MIT', 'ISC', 'Apache', 'GNU', 'None']
-  },
+    type:'list',
+    message: 'What action would you like to do?',
+    choices: actions,
+    name: 'action',
+  }
+];
+
+const welcome = [
   {
     type: 'input',
-    message: 'What is title of the project?',
+    message: `
+    WELCOME TO MYSQLTEAM
+
+    Press [Enter] key to continue
+    `,
     name: 'title',
   },
 ];
 
-module.exports = actions;
+exports.action = action;
+exports.welcome = welcome;
