@@ -1,12 +1,12 @@
 const actions = [
   // 'ADD DEPARTMENT', 
-  // 'ADD ROLE', 
+  'ADD ROLE', 
   // 'ADD EMPLOYEE', 
-  'ADD MANAGER', 
+  // 'ADD MANAGER', 
   // 'VIEW DEPARTMENT', 
-  // 'VIEW ROLE', 
+  'VIEW ROLE', 
   // 'VIEW EMPLOYEE', 
-  'VIEW MANAGER',
+  // 'VIEW MANAGER',
   // 'UPDATE EMPLOYEE ROLE',
   // 'UPDATE EMPLOYEE MANAGER',
   // 'VIEW EMPLOYEES BY MANAGER',
@@ -59,7 +59,28 @@ const manager = [
   },
 ]
 
+const role = [
+  {
+    type: 'input',
+    message: 'What is the title of the role?',
+    name: 'title',
+  },
+  {
+    type: 'input',
+    message: 'What is the salary for the role?',
+    name: 'salary',
+  },
+  // {
+  //   id: 'id',
+  //   type: 'list',
+  //   message: 'What department does the role belong to?',
+  //   choices: ['Web Developer', 'Programmer Analyst 3', 'Fiscal Analyst 3'],
+  //   name: 'department',
+  // },
+]
+
 exports.action = action;
 exports.welcome = welcome;
 exports.department = department;
 exports.manager = manager;
+exports.role = role;

@@ -1,4 +1,4 @@
-const fs = require('fs');
+// const fs = require('fs');
 const inquirer = require('inquirer');
 const questions = require('./questions.js');
 const mysql = require('mysql2');
@@ -34,8 +34,19 @@ const addManager = async () => {
 };
 
 const addRole = async () => {
-  console.log('this is adding a role');
-  main();
+  const role = await inquirer.prompt(questions.role);
+  const salary = parseFloat(role.salary).toFixed(2);
+  // console.log(salary);
+  const addRoleQuery = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
+  // console.log(role);
+
+// add function here to do a query of all the department and return ID of department user select //
+
+  // connection.query(addRoleQuery, [role.title, salary, departmentID], (err, res) => {
+  //   if (err) throw (err);
+  //   console.log(`The role of '${role.title}' has been added.`);
+  // });
+  // main();
 };
 
 const addEmployee = async () => {
