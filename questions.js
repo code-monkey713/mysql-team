@@ -1,19 +1,19 @@
 const actions = [
   // 'ADD DEPARTMENT', 
-  // 'ADD ROLE', 
+  'ADD ROLE', 
   // 'ADD EMPLOYEE', 
   // 'ADD MANAGER', 
-  'VIEW DEPARTMENT', 
+  // 'VIEW DEPARTMENT', 
   'VIEW ROLE', 
-  'VIEW EMPLOYEE', 
-  'VIEW MANAGER',
+  // 'VIEW EMPLOYEE', 
+  // 'VIEW MANAGER',
   // 'UPDATE EMPLOYEE ROLE',
   // 'UPDATE EMPLOYEE MANAGER',
   // 'VIEW EMPLOYEES BY MANAGER',
+  // 'VIEW HR BUDGET OF DEPARTMENT',
   // 'DELETE DEPARTMENT',
   // 'DELETE ROLE',
   // 'DELETE EMPLOYEE',
-  // 'VIEW HR BUDGET OF DEPARTMENT',
   'EXIT THE PROGRAM',
 ];
 
@@ -34,7 +34,7 @@ const welcome = [
 
     Press [Enter] key to continue
     `,
-    name: 'title',
+    name: 'welcome',
   },
 ];
 

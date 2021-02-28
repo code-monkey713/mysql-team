@@ -17,12 +17,12 @@ VALUES ('Web Developer', 73532.85, 1),
 
 INSERT INTO employee (last_name, first_name, role_id, manager_id)
 VALUES ('Thomas', 'Velma', 6, 4), 
-('Dugan', 'Kathy', 5, 4), 
-('Lowes', 'Jennifer', 6, 3), 
-('Wilds', 'Delicsha', 4, 1), 
-('Divon', 'Peter', 5, 3), 
-('Mitchell', 'Stephanie', 4, 5), 
-('Price', 'Letitia', 2, 1), 
-('Ponterio', 'Ann', 4, 2), 
-('Page', 'Carlton', 1, 2), 
-('Smith', 'Erin', 3, 5); 
+  ('Dugan', 'Kathy', 5, 4), 
+  ('Lowes', 'Jennifer', 6, 3), 
+  ('Wilds', 'Delicsha', 4, 1), 
+  ('Divon', 'Peter', 5, 3), 
+  ('Mitchell', 'Stephanie', 4, 5), 
+  ('Price', 'Letitia', 2, 1), 
+  ('Ponterio', 'Ann', 4, 2), 
+  ('Page', 'Carlton', 1, 2), 
+  ('Smith', 'Erin', 3, 5); 

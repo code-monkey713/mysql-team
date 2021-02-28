@@ -13,14 +13,11 @@ const connection = mysql.createConnection({
 });
 
 const addDepartment = async () => {
-  // const { action } = await inquirer.prompt(questions.welcome);
-  // console.log('this is adding a department');
-  const { deptName } = await inquirer.prompt(questions.department);
-  console.log(deptName);
+  const dept = await inquirer.prompt(questions.department);
   const addDeptQuery = 'INSERT INTO department (name) VALUES (?)';
-  connection.query(addDeptQuery, [deptName], (err, res) => {
+  connection.query(addDeptQuery, dept.name, (err, res) => {
     if (err) throw (err);
-    console.log('Your department has been created.');
+    console.log(`Your department of ${dept.name} has been added.`);
   });
   main();
 };
@@ -80,7 +77,7 @@ const main = async () => {
       connection.end();
       return;
     default:
-      console.log('Please select an action to perform!')
+      console.log('Please select a valid action to perform!')
       break;
   }
 };
