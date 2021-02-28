@@ -17,7 +17,18 @@ const addDepartment = async () => {
   const addDeptQuery = 'INSERT INTO department (name) VALUES (?)';
   connection.query(addDeptQuery, dept.name, (err, res) => {
     if (err) throw (err);
-    console.log(`Your department of ${dept.name} has been added.`);
+    console.log(`The department name '${dept.name}' has been added.`);
+  });
+  main();
+};
+
+const addManager = async () => {
+  const manager = await inquirer.prompt(questions.manager);
+  const addManagerQuery = 'INSERT INTO manager (first_name, last_name) VALUES (?, ?)';
+  console.log(manager);
+  connection.query(addManagerQuery, [manager.firstName, manager.lastName], (err, res) => {
+    if (err) throw (err);
+    console.log(`The manager '${manager.firstName} ${manager.lastName}' has been added.`);
   });
   main();
 };
@@ -54,6 +65,9 @@ const main = async () => {
     case 'ADD DEPARTMENT': 
       addDepartment();
       break;
+    case 'ADD MANAGER': 
+      addManager();
+      break;
     case 'ADD ROLE': 
       addRole();
       break;
@@ -78,6 +92,7 @@ const main = async () => {
       return;
     default:
       console.log('Please select a valid action to perform!')
+      main();
       break;
   }
 };

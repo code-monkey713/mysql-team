@@ -1,12 +1,12 @@
 const actions = [
   // 'ADD DEPARTMENT', 
-  'ADD ROLE', 
+  // 'ADD ROLE', 
   // 'ADD EMPLOYEE', 
-  // 'ADD MANAGER', 
+  'ADD MANAGER', 
   // 'VIEW DEPARTMENT', 
-  'VIEW ROLE', 
+  // 'VIEW ROLE', 
   // 'VIEW EMPLOYEE', 
-  // 'VIEW MANAGER',
+  'VIEW MANAGER',
   // 'UPDATE EMPLOYEE ROLE',
   // 'UPDATE EMPLOYEE MANAGER',
   // 'VIEW EMPLOYEES BY MANAGER',
@@ -46,6 +46,20 @@ const department = [
   }
 ]
 
+const manager = [
+  {
+    type: 'input',
+    message: 'What is the first name of the manager?',
+    name: 'firstName',
+  },
+  {
+    type: 'input',
+    message: 'What is the last name of the manager?',
+    name: 'lastName',
+  },
+]
+
 exports.action = action;
 exports.welcome = welcome;
 exports.department = department;
+exports.manager = manager;
