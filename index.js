@@ -14,7 +14,15 @@ const connection = mysql.createConnection({
 
 const addDepartment = async () => {
   // const { action } = await inquirer.prompt(questions.welcome);
-  console.log('this is adding a department');
+  // console.log('this is adding a department');
+  const { deptName } = await inquirer.prompt(questions.department);
+  console.log(deptName);
+  const addDeptQuery = 'INSERT INTO department (name) VALUES (?)';
+  connection.query(addDeptQuery, [deptName], (err, res) => {
+    if (err) throw (err);
+    console.log('Your department has been created.');
+    // main();
+  });
   main();
 };
 
@@ -35,6 +43,22 @@ const welcome = async () => {
   main();
 };
 
+const viewDepartment = () => {
+  const viewDeptQuery = 'SELECT * FROM department';
+  connection.query(viewDeptQuery, (err, res) => {
+    if (err) throw err;
+    console.log('');
+    console.table(res);
+    console.log('');
+    // res.forEach(({ id, name }) => {
+    //   console.log(
+    //     `Position: ${id} || Song: ${name}`
+    //   );
+    // });
+    })
+    main();
+  };
+
 const main = async () => {
   const { action } = await inquirer.prompt(questions.action);
   switch(action){
@@ -47,8 +71,12 @@ const main = async () => {
     case 'ADD EMPLOYEE': 
       addEmployee();
       break;
+    case 'VIEW DEPARTMENT': 
+      viewDepartment();
+      break;
     case 'EXIT THE PROGRAM':
       console.log('Your program has been terminated!');
+      connection.end();
       return;
     default:
       console.log('Please select an action to perform!')

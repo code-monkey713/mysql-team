@@ -5,21 +5,21 @@ USE mySQLteam_DB;
 
 CREATE TABLE department(
   id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(30),
+  name VARCHAR(40),
   PRIMARY KEY (id)
 );
 
 CREATE TABLE manager (
   id INT NOT NULL AUTO_INCREMENT,
-  first_name VARCHAR(30),
-  last_name VARCHAR(30),
+  first_name VARCHAR(40),
+  last_name VARCHAR(40),
   PRIMARY KEY (id)
 );
 
 CREATE TABLE role (
   id INT NOT NULL AUTO_INCREMENT, 
-  title VARCHAR(30), 
-  salary DECIMAL, 
+  title VARCHAR(50), 
+  salary DECIMAL(20, 2), 
   department_id INT,
   PRIMARY KEY (id), 
   FOREIGN KEY (department_id) REFERENCES department(id)
@@ -27,8 +27,8 @@ CREATE TABLE role (
 
 CREATE TABLE employee (
   id INT NOT NULL AUTO_INCREMENT,
-  first_name VARCHAR(30),
-  last_name VARCHAR(30),
+  first_name VARCHAR(40),
+  last_name VARCHAR(40),
   role_id INT,
   manager_id INT,
   PRIMARY KEY (id), 
