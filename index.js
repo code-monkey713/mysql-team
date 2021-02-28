@@ -21,19 +21,16 @@ const addDepartment = async () => {
   connection.query(addDeptQuery, [deptName], (err, res) => {
     if (err) throw (err);
     console.log('Your department has been created.');
-    // main();
   });
   main();
 };
 
 const addRole = async () => {
-  // const { action } = await inquirer.prompt(questions.welcome);
   console.log('this is adding a role');
   main();
 };
 
 const addEmployee = async () => {
-  // const { action } = await inquirer.prompt(questions.welcome);
   console.log('this is adding an employee');
   main();
 };
@@ -43,18 +40,13 @@ const welcome = async () => {
   main();
 };
 
-const viewDepartment = () => {
-  const viewDeptQuery = 'SELECT * FROM department';
-  connection.query(viewDeptQuery, (err, res) => {
+const viewTable = (tblName) => {
+  const viewQuery = `SELECT * FROM ${tblName}`;
+  connection.query(viewQuery, (err, res) => {
     if (err) throw err;
     console.log('');
     console.table(res);
     console.log('');
-    // res.forEach(({ id, name }) => {
-    //   console.log(
-    //     `Position: ${id} || Song: ${name}`
-    //   );
-    // });
     })
     main();
   };
@@ -72,7 +64,16 @@ const main = async () => {
       addEmployee();
       break;
     case 'VIEW DEPARTMENT': 
-      viewDepartment();
+      viewTable('department');
+      break;
+    case 'VIEW ROLE': 
+      viewTable('role');
+      break;
+    case 'VIEW EMPLOYEE': 
+      viewTable('employee');
+      break;
+    case 'VIEW MANAGER': 
+      viewTable('manager');
       break;
     case 'EXIT THE PROGRAM':
       console.log('Your program has been terminated!');
