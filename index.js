@@ -33,20 +33,74 @@ const addManager = async () => {
   main();
 };
 
+const getDeptID = (choice) => {
+  // console.log('get dept id function ran');
+  // const getDeptQuery = 'SELECT * FROM department';
+  // let deptArr = [];
+  // connection.query(getDeptQuery, (err, res) => {
+  //   deptArr = res.map(m => `
+  //   {
+  //     key: ${m.id},
+  //     name: ${m.name},
+  //   },
+  //   `).join('');
+  //   console.log('\n\n');
+  //   console.log(allDeptID);
+  //   console.log('\n\n');
+    // const deptID = await inquirer.prompt({
+    //   type: 'expand',
+    //   name: 'departmentID',
+    //   message: 'What department does this role belong to?',
+    //   choices: deptArr
+    // })
+    // .then((answer) => {
+    //   // const query = 'SELECT position, song, year FROM top5000 WHERE ?';
+    //   // connection.query(query, { artist: answer.artist }, (err, res) => {
+    //   //   res.forEach(({ position, song, year }) => {
+    //   //     console.log(
+    //   //       `Position: ${position} || Song: ${song} || Year: ${year}`
+    //   //     );
+    //   //   });
+    //     console.log(answer);
+    // });
+    // return(deptArr);
+
+    // return('This is the ID');
+    // main();
+    // });
+};
+
 const addRole = async () => {
-  const role = await inquirer.prompt(questions.role);
-  const salary = parseFloat(role.salary).toFixed(2);
-  // console.log(salary);
-  const addRoleQuery = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
-  // console.log(role);
+  console.log('add role function call');
+  const getDeptQuery = 'SELECT * FROM department';
+  let deptArr = [];
+  connection.query(getDeptQuery, (err, res) => {
+    deptArr = res.map(m => `
+    {
+      key: ${m.id},
+      name: ${m.name},
+    },
+    `).join('');
+    console.log('\n\n');
+    console.log(deptArr);
+    console.log('\n\n');
+  // const deptChoice = getDeptID();
+  // getDeptID();
+  // console.log(deptChoice);
+  });
+    // const role = await inquirer.prompt(questions.role);
+    // const salary = parseFloat(role.salary).toFixed(2);
+    // console.log(salary);
+    // const addRoleQuery = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
+    // console.log(role);
 
-// add function here to do a query of all the department and return ID of department user select //
+    // add function here to do a query of all the department and return ID of department user select //
 
-  // connection.query(addRoleQuery, [role.title, salary, departmentID], (err, res) => {
-  //   if (err) throw (err);
-  //   console.log(`The role of '${role.title}' has been added.`);
-  // });
-  // main();
+    // connection.query(addRoleQuery, [role.title, salary, departmentID], (err, res) => {
+    //   if (err) throw (err);
+    //   console.log(`The role of '${role.title}' has been added.`);
+    // });
+  main();
 };
 
 const addEmployee = async () => {
@@ -63,9 +117,9 @@ const viewTable = (tblName) => {
   const viewQuery = `SELECT * FROM ${tblName}`;
   connection.query(viewQuery, (err, res) => {
     if (err) throw err;
-    console.log('');
+    console.log('\n');
     console.table(res);
-    console.log('');
+    console.log('\n\n');
     })
     main();
   };

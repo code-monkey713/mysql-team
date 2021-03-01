@@ -66,6 +66,14 @@ const role = [
     name: 'title',
   },
   {
+    // type: 'input',
+    // name: 'quantity',
+    // message: 'How many do you need?',
+    // validate: function (value) {
+    //   var valid = !isNaN(parseFloat(value));
+    //   return valid || 'Please enter a number';
+    // },
+    // filter: Number,
     type: 'input',
     message: 'What is the salary for the role?',
     name: 'salary',
@@ -74,7 +82,9 @@ const role = [
   //   id: 'id',
   //   type: 'list',
   //   message: 'What department does the role belong to?',
-  //   choices: ['Web Developer', 'Programmer Analyst 3', 'Fiscal Analyst 3'],
+    // choices: [
+    // 'Web Developer', 'Programmer Analyst 3', 'Fiscal Analyst 3'
+    // ],
   //   name: 'department',
   // },
 ]
