@@ -33,7 +33,22 @@ const addManager = async () => {
   main();
 };
 
-const getDeptID = (choice) => {
+function getDeptList(callback){
+  const getDeptQuery = 'SELECT * FROM department';
+  array = connection.query(getDeptQuery, (err, res) => {
+    if (err) throw (err);
+    callback = res.map(m => `
+    {
+      key: ${m.id},
+      name: ${m.name},
+    },
+    `).join('');
+    console.log(callback);
+    return callback;
+  });
+}
+
+const getDeptID = (arr, callback) => {
   // console.log('get dept id function ran');
   // const getDeptQuery = 'SELECT * FROM department';
   // let deptArr = [];
@@ -70,24 +85,26 @@ const getDeptID = (choice) => {
     // });
 };
 
-const addRole = async () => {
-  console.log('add role function call');
-  const getDeptQuery = 'SELECT * FROM department';
-  let deptArr = [];
-  connection.query(getDeptQuery, (err, res) => {
-    deptArr = res.map(m => `
-    {
-      key: ${m.id},
-      name: ${m.name},
-    },
-    `).join('');
-    console.log('\n\n');
-    console.log(deptArr);
-    console.log('\n\n');
+addRole = async () => {
+  const allDeptList = getDeptList();
+  // console.log(allDeptList);
+  // const getDeptQuery = 'SELECT * FROM department';
+  // let deptArr = [];
+  // connection.query(getDeptQuery,  (err, res) => {
+  //   deptArr = res.map(m => `
+  //   {
+  //     key: ${m.id},
+  //     name: ${m.name},
+  //   },
+  //   `).join('');
+  //   console.log('\n\n');
+  //   console.log(deptArr);
+  //   console.log('\n\n');
   // const deptChoice = getDeptID();
   // getDeptID();
   // console.log(deptChoice);
-  });
+  // });
+
     // const role = await inquirer.prompt(questions.role);
     // const salary = parseFloat(role.salary).toFixed(2);
     // console.log(salary);
