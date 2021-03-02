@@ -66,17 +66,14 @@ const role = [
     name: 'title',
   },
   {
-    // type: 'input',
-    // name: 'quantity',
-    // message: 'How many do you need?',
-    // validate: function (value) {
-    //   var valid = !isNaN(parseFloat(value));
-    //   return valid || 'Please enter a number';
-    // },
-    // filter: Number,
     type: 'input',
-    message: 'What is the salary for the role?',
     name: 'salary',
+    message: 'What is the salary for the role?',
+    validate: function (answer) {
+      const valid = !isNaN(answer);
+      return valid || 'Please enter a number';
+    },
+    filter: Number,
   },
   // {
   //   id: 'id',

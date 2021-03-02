@@ -1,4 +1,4 @@
-// const fs = require('fs');
+const log = console.log;
 const inquirer = require('inquirer');
 const questions = require('./questions.js');
 const mysql = require('mysql2');
@@ -10,7 +10,7 @@ const connection = mysql.createConnection({
   user: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-});
+})
 
 const addDepartment = async () => {
   const dept = await inquirer.prompt(questions.department);
@@ -20,105 +20,71 @@ const addDepartment = async () => {
     console.log(`The department name '${dept.name}' has been added.`);
   });
   main();
-};
+}
 
 const addManager = async () => {
   const manager = await inquirer.prompt(questions.manager);
   const addManagerQuery = 'INSERT INTO manager (first_name, last_name) VALUES (?, ?)';
-  console.log(manager);
+  // console.log(manager);
   connection.query(addManagerQuery, [manager.firstName, manager.lastName], (err, res) => {
     if (err) throw (err);
     console.log(`The manager '${manager.firstName} ${manager.lastName}' has been added.`);
   });
   main();
-};
+}
 
-function getDeptList(callback){
+const getDeptList = () => {
+  // console.log('get department list called');
   const getDeptQuery = 'SELECT * FROM department';
-  array = connection.query(getDeptQuery, (err, res) => {
+  connection.query(getDeptQuery, (err, res) => {
     if (err) throw (err);
-    callback = res.map(m => `
-    {
-      key: ${m.id},
-      name: ${m.name},
-    },
-    `).join('');
-    console.log(callback);
-    return callback;
+    let deptListID = [];
+    deptListID.push(res);
+    getDeptID(deptListID);
   });
 }
 
-const getDeptID = (arr, callback) => {
-  // console.log('get dept id function ran');
-  // const getDeptQuery = 'SELECT * FROM department';
-  // let deptArr = [];
-  // connection.query(getDeptQuery, (err, res) => {
-  //   deptArr = res.map(m => `
-  //   {
-  //     key: ${m.id},
-  //     name: ${m.name},
-  //   },
-  //   `).join('');
-  //   console.log('\n\n');
-  //   console.log(allDeptID);
-  //   console.log('\n\n');
-    // const deptID = await inquirer.prompt({
-    //   type: 'expand',
-    //   name: 'departmentID',
-    //   message: 'What department does this role belong to?',
-    //   choices: deptArr
-    // })
-    // .then((answer) => {
-    //   // const query = 'SELECT position, song, year FROM top5000 WHERE ?';
-    //   // connection.query(query, { artist: answer.artist }, (err, res) => {
-    //   //   res.forEach(({ position, song, year }) => {
-    //   //     console.log(
-    //   //       `Position: ${position} || Song: ${song} || Year: ${year}`
-    //   //     );
-    //   //   });
-    //     console.log(answer);
-    // });
-    // return(deptArr);
+const getDeptID = async (arr) => {
+  // log('get dept id function ran');
+  // console.log(arr[0], '\n\n');
+  const deptArray = arr[0];
+  // console.log(deptArray, '\n\n');
+  let choice = []; 
+  deptArray.forEach(e => {
+    choice.push(e.name);
+  });
+  // log(choice);
+  const deptID = await inquirer.prompt({
+    type: 'list',
+    name: 'deptName',
+    message: 'What department does this role belong to?',
+    choices: choice
+  })
+  .then((answer) => {
+    // log(answer.deptName);
+    // log(deptArray);
+    deptArray.forEach(e =>{
+      if (e.name === answer.deptName){
+        log(e.id);
+        addRole(e.id);
+        return;
+      };
+    })
+  });
+}
 
-    // return('This is the ID');
-    // main();
-    // });
-};
-
-addRole = async () => {
-  const allDeptList = getDeptList();
-  // console.log(allDeptList);
-  // const getDeptQuery = 'SELECT * FROM department';
-  // let deptArr = [];
-  // connection.query(getDeptQuery,  (err, res) => {
-  //   deptArr = res.map(m => `
-  //   {
-  //     key: ${m.id},
-  //     name: ${m.name},
-  //   },
-  //   `).join('');
-  //   console.log('\n\n');
-  //   console.log(deptArr);
-  //   console.log('\n\n');
-  // const deptChoice = getDeptID();
-  // getDeptID();
-  // console.log(deptChoice);
-  // });
-
-    // const role = await inquirer.prompt(questions.role);
-    // const salary = parseFloat(role.salary).toFixed(2);
-    // console.log(salary);
-    // const addRoleQuery = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
-    // console.log(role);
-
-    // add function here to do a query of all the department and return ID of department user select //
-
-    // connection.query(addRoleQuery, [role.title, salary, departmentID], (err, res) => {
-    //   if (err) throw (err);
-    //   console.log(`The role of '${role.title}' has been added.`);
-    // });
+const addRole = async (dept) => {
+  // log('function to add role to database');
+  const role = await inquirer.prompt(questions.role);
+  const salary = parseFloat(role.salary).toFixed(2);
+  log(role.title, salary, dept, '\n');
+  const addRoleQuery = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
+  connection.query(addRoleQuery, [role.title, salary, dept], (err, res) => {
+    if (err) throw (err);
+    console.log(`The role of '${role.title}' has been added. \n`);
+  });
   main();
-};
+}
 
 const addEmployee = async () => {
   console.log('this is adding an employee');
@@ -151,7 +117,7 @@ const main = async () => {
       addManager();
       break;
     case 'ADD ROLE': 
-      addRole();
+      getDeptList();
       break;
     case 'ADD EMPLOYEE': 
       addEmployee();
