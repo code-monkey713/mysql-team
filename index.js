@@ -33,14 +33,42 @@ const addManager = async () => {
   main();
 }
 
+const addRole = async (dept) => {
+  // log('function to add role to database');
+  const role = await inquirer.prompt(questions.role);
+  const salary = parseFloat(role.salary).toFixed(2);
+  // log(role.title, salary, dept, '\n');
+  const addRoleQuery = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
+  connection.query(addRoleQuery, [role.title, salary, dept], (err, res) => {
+    if (err) throw (err);
+    console.log(`The role of '${role.title}' has been added. \n`);
+  });
+  main();
+}
+
+const addEmployee = async (roleID) => {
+  console.log('this is adding an employee \n');
+  log('the role id is: ', roleID);
+  const employee = await inquirer.prompt(questions.employee);
+  log(employee, '\n\n');
+  // log(role.title, salary, dept, '\n');
+  // const addEmployeeQuery = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
+  // connection.query(addRoleQuery, [role.title, salary, dept], (err, res) => {
+  //   if (err) throw (err);
+  //   console.log(`The employee '${role.title}' has been added. \n`);
+  // });
+  main();
+};
+
 const getDeptList = () => {
   // console.log('get department list called');
   const getDeptQuery = 'SELECT * FROM department';
   connection.query(getDeptQuery, (err, res) => {
     if (err) throw (err);
-    let deptListID = [];
-    deptListID.push(res);
-    getDeptID(deptListID);
+    let deptList = [];
+    deptList.push(res);
+    getDeptID(deptList);
+    connection.end();
   });
 }
 
@@ -65,7 +93,7 @@ const getDeptID = async (arr) => {
     // log(deptArray);
     deptArray.forEach(e =>{
       if (e.name === answer.deptName){
-        log(e.id);
+        // log(e.id);
         addRole(e.id);
         return;
       };
@@ -73,23 +101,45 @@ const getDeptID = async (arr) => {
   });
 }
 
-const addRole = async (dept) => {
-  // log('function to add role to database');
-  const role = await inquirer.prompt(questions.role);
-  const salary = parseFloat(role.salary).toFixed(2);
-  log(role.title, salary, dept, '\n');
-  const addRoleQuery = 'INSERT INTO role (title, salary, department_id) VALUES (?, ?, ?)';
-  connection.query(addRoleQuery, [role.title, salary, dept], (err, res) => {
+const getRoleList = () => {
+  // console.log('get department list called');
+  const getDeptQuery = 'SELECT * FROM role';
+  connection.query(getDeptQuery, (err, res) => {
     if (err) throw (err);
-    console.log(`The role of '${role.title}' has been added. \n`);
+    let roleList = [];
+    roleList.push(res);
+    // log(roleList);
+    getRoleID(roleList);
+    connection.end();
   });
-  main();
 }
 
-const addEmployee = async () => {
-  console.log('this is adding an employee');
-  main();
-};
+const getRoleID = async (arr) => {
+  // console.log(arr[0], '\n\n');
+  const roleArray = arr[0];
+  let roleChoice = []; 
+  roleArray.forEach(e => {
+    roleChoice.push(e.title);
+  });
+  // log(roleChoice);
+  const roleID = await inquirer.prompt({
+    type: 'list',
+    name: 'roleName',
+    message: 'What role does this employee have?',
+    choices: roleChoice
+  })
+  .then((answer) => {
+    // log(answer.roleName);
+    // log(roleArray);
+    roleArray.forEach(e =>{
+      if (e.title === answer.roleName){
+        // log(e.id);
+        addEmployee(e.id);
+        return;
+      };
+    })
+  });
+}
 
 const welcome = async () => {
   const { action } = await inquirer.prompt(questions.welcome);
@@ -120,7 +170,8 @@ const main = async () => {
       getDeptList();
       break;
     case 'ADD EMPLOYEE': 
-      addEmployee();
+      // addEmployee();
+      getRoleList();
       break;
     case 'VIEW DEPARTMENT': 
       viewTable('department');

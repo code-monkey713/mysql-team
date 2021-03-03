@@ -1,11 +1,11 @@
 const actions = [
   // 'ADD DEPARTMENT', 
-  'ADD ROLE', 
-  // 'ADD EMPLOYEE', 
+  // 'ADD ROLE', 
+  'ADD EMPLOYEE', 
   // 'ADD MANAGER', 
   // 'VIEW DEPARTMENT', 
-  'VIEW ROLE', 
-  // 'VIEW EMPLOYEE', 
+  // 'VIEW ROLE', 
+  'VIEW EMPLOYEE', 
   // 'VIEW MANAGER',
   // 'UPDATE EMPLOYEE ROLE',
   // 'UPDATE EMPLOYEE MANAGER',
@@ -75,15 +75,19 @@ const role = [
     },
     filter: Number,
   },
-  // {
-  //   id: 'id',
-  //   type: 'list',
-  //   message: 'What department does the role belong to?',
-    // choices: [
-    // 'Web Developer', 'Programmer Analyst 3', 'Fiscal Analyst 3'
-    // ],
-  //   name: 'department',
-  // },
+]
+
+const employee = [
+  {
+    type: 'input',
+    message: 'Enter the first name of the employee. ',
+    name: 'firstName',
+  },
+  {
+    type: 'input',
+    message: 'Enter the last name of the employee. ',
+    name: 'lastName',
+  },
 ]
 
 exports.action = action;
@@ -91,3 +95,4 @@ exports.welcome = welcome;
 exports.department = department;
 exports.manager = manager;
 exports.role = role;
+exports.employee = employee;
