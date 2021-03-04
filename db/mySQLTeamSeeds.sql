@@ -4,7 +4,7 @@ INSERT INTO department (name)
 VALUES ('Human Resources'), ('Engineering'), ('Customer Service'), ('Finance'), ('Fleet Management');
 
 INSERT INTO manager (last_name, first_name)
-VALUES ('Chiliberti', 'Rosemary'), ('Smith', 'Kari'), ('Brumskill', 'Sandra'), ('Alexander', 'Khadejah'), ('Hill', 'Sean');
+VALUES ('No', 'Manager'), ('Chiliberti', 'Rosemary'), ('Smith', 'Kari'), ('Brumskill', 'Sandra'), ('Alexander', 'Khadejah'), ('Hill', 'Sean');
 
 INSERT INTO role (title, salary, department_id)
 VALUES ('Web Developer', 73532.85, 1), 
