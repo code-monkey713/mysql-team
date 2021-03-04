@@ -47,10 +47,24 @@ const addRole = async (dept) => {
 }
 
 const addEmployee = async (roleID) => {
-  console.log('this is adding an employee \n');
+  // console.log('this is adding an employee \n');
   log('the role id is: ', roleID);
+  const directReport = await inquirer.prompt({
+    type: 'confirm',
+    name: 'hasManager',
+    message: 'Does this employee have a manager to report to?'
+  })
+  .then((answer) => {
+    if (answer.hasManager === true) {
+      // log(answer);
+      const managerID = getManagerList();
+      log(managerID);
+    }
+  });
+  // log(answer);
   const employee = await inquirer.prompt(questions.employee);
   log(employee, '\n\n');
+
   // log(role.title, salary, dept, '\n');
   // const addEmployeeQuery = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
   // connection.query(addRoleQuery, [role.title, salary, dept], (err, res) => {
@@ -60,6 +74,48 @@ const addEmployee = async (roleID) => {
   main();
 };
 
+const getManagerList = async () => {
+  const getManagerQuery = 'SELECT * FROM manager';
+  connection.query(getManagerQuery, (err, res) => {
+    if (err) throw (err);
+    let managerList = [];
+    managerList.push(res);
+    // log(managerList);
+    getManagerID(ManagerList);
+    // connection.end();
+  })
+}
+
+const getManagerID = async (arr) => {
+  log('get managerID function ran');
+  log(arr[0]);
+  const managerArray = arr[0];
+  let managerChoice = []; 
+  managerArray.forEach(e => {
+    managerChoice.push(e.title);
+  });
+  // log(managerChoice);
+  const managerID = await inquirer.prompt({
+    type: 'list',
+    name: 'managerName',
+    message: 'Who is the manager for this employee?',
+    choices: managerChoice
+  })
+  .then((answer) => {
+    // log(answer.roleName);
+    // log(roleArray);
+    roleArray.forEach(e =>{
+      if (e.title === answer.roleName){
+        // log(e.id);
+        addEmployee(e.id);
+        return;
+      };
+    })
+  });
+
+  // return ('this is the manager ID');
+}
+
 const getDeptList = () => {
   // console.log('get department list called');
   const getDeptQuery = 'SELECT * FROM department';
@@ -68,7 +124,7 @@ const getDeptList = () => {
     let deptList = [];
     deptList.push(res);
     getDeptID(deptList);
-    connection.end();
+    // connection.end();
   });
 }
 
@@ -110,7 +166,7 @@ const getRoleList = () => {
     roleList.push(res);
     // log(roleList);
     getRoleID(roleList);
-    connection.end();
+    // connection.end();
   });
 }
 
@@ -170,8 +226,8 @@ const main = async () => {
       getDeptList();
       break;
     case 'ADD EMPLOYEE': 
-      // addEmployee();
-      getRoleList();
+      addEmployee();
+      // getRoleList();
       break;
     case 'VIEW DEPARTMENT': 
       viewTable('department');
