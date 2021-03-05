@@ -44,6 +44,28 @@ const addRole = async (dept) => {
   main();
 }
 
+const addEmployee = async (roleID, managerID) => {  
+  const employee = await inquirer.prompt(questions.employee);
+  const addEmployeeQuery = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
+  connection.query(addEmployeeQuery, [employee.firstName, employee.lastName, roleID, managerID], (err, res) => {
+    if (err) throw (err);
+    log(`The employee '${employee.lastName}, ${employee.firstName}' has been added. \n`);
+    main();
+  });
+}
+
+const updateRole = (roleID, employeeID) => {
+  // log(`role ID: ${parseInt(roleID)} || employee ID ${parseInt(employeeID)} \n`);
+  const updateEmployeeRole = `
+    UPDATE employee
+    SET role_id = ${parseInt(roleID)}
+    WHERE id = ${parseInt(employeeID)};`;
+  connection.query(updateEmployeeRole, [parseInt(roleID), parseInt(employeeID)], (err, res) => {
+    if (err) throw (err);
+    log(`Employee ${employeeID} role has been updated to ${roleID} \n`);main();
+  });
+}
+
 const hasManager = (roleID) => {
   log('the role id is: ', roleID);
   inquirer.prompt({
@@ -61,17 +83,6 @@ const hasManager = (roleID) => {
     }
   });
 };
-
-const addEmployee = async (roleID, managerID) => {  
-  const employee = await inquirer.prompt(questions.employee);
-
-  const addEmployeeQuery = 'INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (?, ?, ?, ?)';
-  connection.query(addEmployeeQuery, [employee.firstName, employee.lastName, roleID, managerID], (err, res) => {
-    if (err) throw (err);
-    log(`The employee '${employee.lastName}, ${employee.firstName}' has been added. \n`);
-    main();
-  });
-}
 
 const getManagerList = async (role) => {
   const getManagerQuery = 'SELECT * FROM manager';
@@ -130,13 +141,13 @@ const getDeptID = async (arr) => {
   });
 }
 
-const getRoleList = () => {
+const getRoleList = (use) => {
   const getDeptQuery = 'SELECT * FROM role';
   connection.query(getDeptQuery, (err, res) => {
     if (err) throw (err);
     let roleList = [];
     roleList.push(res);
-    getRoleID(roleList);
+    const action = (use === 'add') ? getRoleID(roleList) : null;
   });
 }
 
@@ -149,7 +160,7 @@ const getRoleID = async (arr) => {
   const roleID = await inquirer.prompt({
     type: 'list',
     name: 'roleName',
-    message: 'What role does this employee have?',
+    message: 'What role will this employee have?',
     choices: roleChoice
   })
   .then((answer) => {
@@ -159,6 +170,70 @@ const getRoleID = async (arr) => {
         return;
       };
     })
+  });
+}
+
+const getRoleListUpdate = (eID) => {
+  log('the employee data ', eID, '\n');
+  const updateRoleQuery = 'SELECT * FROM role';
+  connection.query(updateRoleQuery, (err, res) => {
+    if (err) throw (err);
+    let updateRoleList = [];
+    updateRoleList.push(res);
+    getRoleIDupdate(updateRoleList, eID);
+  });
+}
+
+const getRoleIDupdate = async (arr, eID) => {
+  const roleArray = arr[0];
+  let roleChoiceUpdate = []; 
+  roleArray.forEach(e => {
+    roleChoiceUpdate.push(`${e.id} - ${e.title}`);
+  });
+  log(roleChoiceUpdate, '\n');
+  const roleIDupdate = await inquirer.prompt({
+    type: 'list',
+    name: 'roleName',
+    message: 'What role will this employee have?',
+    choices: roleChoiceUpdate
+  })
+  .then((res) => {
+    // log('roleID: ', res.roleName, 'employee ID: ', eID);
+    updateRole(res.roleName, eID);
+  });
+}
+
+const getEmployeeID = async (arr) => {
+  const employeeArray = arr[0];
+  let employeeChoice = [];
+  log(employeeArray, '\n');
+  employeeArray.forEach(e => {
+    employeeChoice.push(e.id + ' - ' + e.last_name + ', ' + e.first_name);
+  });
+  log(employeeChoice, '\n');
+  const employeeID = await inquirer.prompt({
+    type: 'list',
+    name: 'employeeName',
+    message: 'Which employee you wish to change the role for?',
+    choices: employeeChoice, 
+  })
+  .then((res) => {
+    log('the response is: ', res, '\n')
+    // addEmployee(role, parseInt(answer.managerName));
+    // log('function to call what roles list to change to');
+    getRoleListUpdate(res.employeeName);
+    });
+  // });
+}
+
+const getEmployeeList = () => {
+  const getEmployeeQuery = 'SELECT * FROM employee';
+  connection.query(getEmployeeQuery, (err, res) => {
+    if (err) throw (err);
+    let employeeList = [];
+    employeeList.push(res);
+    // log(employeeList, '\n');
+    getEmployeeID(employeeList);
   });
 }
 
@@ -173,9 +248,10 @@ const viewTable = (tblName) => {
     if (err) throw err;
     console.log('\n');
     console.table(res);
-    console.log('\n\n');
-    })
+    console.log('\n');
     main();
+    })
+    
   };
 
 const main = async () => {
@@ -191,7 +267,7 @@ const main = async () => {
       getDeptList();
       break;
     case 'ADD EMPLOYEE': 
-      getRoleList();
+      getRoleList('add');
       break;
     case 'VIEW DEPARTMENT': 
       viewTable('department');
@@ -204,6 +280,9 @@ const main = async () => {
       break;
     case 'VIEW MANAGER': 
       viewTable('manager');
+      break;
+    case 'UPDATE EMPLOYEE ROLE': 
+      getEmployeeList();
       break;
     case 'EXIT THE PROGRAM':
       console.log('Your program has been terminated!');
