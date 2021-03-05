@@ -17,9 +17,9 @@ const addDepartment = async () => {
   const addDeptQuery = 'INSERT INTO department (name) VALUES (?)';
   connection.query(addDeptQuery, dept.name, (err, res) => {
     if (err) throw (err);
-    console.log(`The department name '${dept.name}' has been added.`);
+    console.log(`The department name '${dept.name}' has been added. \n`);
+    main();
   });
-  main();
 }
 
 const addManager = async () => {
@@ -27,9 +27,9 @@ const addManager = async () => {
   const addManagerQuery = 'INSERT INTO manager (first_name, last_name) VALUES (?, ?)';
   connection.query(addManagerQuery, [manager.firstName, manager.lastName], (err, res) => {
     if (err) throw (err);
-    console.log(`The manager '${manager.firstName} ${manager.lastName}' has been added.`);
+    console.log(`The manager '${manager.firstName} ${manager.lastName}' has been added. \n`);
+    main();
   });
-  main();
 }
 
 const addRole = async (dept) => {
@@ -39,9 +39,8 @@ const addRole = async (dept) => {
   connection.query(addRoleQuery, [role.title, salary, dept], (err, res) => {
     if (err) throw (err);
     console.log(`The role of '${role.title}' has been added. \n`);
-    
+    main();
   });
-  main();
 }
 
 const addEmployee = async (roleID, managerID) => {  
@@ -55,7 +54,6 @@ const addEmployee = async (roleID, managerID) => {
 }
 
 const updateRole = (roleID, employeeID) => {
-  // log(`role ID: ${parseInt(roleID)} || employee ID ${parseInt(employeeID)} \n`);
   const updateEmployeeRole = `
     UPDATE employee
     SET role_id = ${parseInt(roleID)}
@@ -67,7 +65,6 @@ const updateRole = (roleID, employeeID) => {
 }
 
 const hasManager = (roleID) => {
-  log('the role id is: ', roleID);
   inquirer.prompt({
     type: 'confirm',
     name: 'hasManager',
@@ -190,7 +187,6 @@ const getRoleIDupdate = async (arr, eID) => {
   roleArray.forEach(e => {
     roleChoiceUpdate.push(`${e.id} - ${e.title}`);
   });
-  log(roleChoiceUpdate, '\n');
   const roleIDupdate = await inquirer.prompt({
     type: 'list',
     name: 'roleName',
@@ -198,7 +194,6 @@ const getRoleIDupdate = async (arr, eID) => {
     choices: roleChoiceUpdate
   })
   .then((res) => {
-    // log('roleID: ', res.roleName, 'employee ID: ', eID);
     updateRole(res.roleName, eID);
   });
 }
@@ -206,11 +201,9 @@ const getRoleIDupdate = async (arr, eID) => {
 const getEmployeeID = async (arr) => {
   const employeeArray = arr[0];
   let employeeChoice = [];
-  log(employeeArray, '\n');
   employeeArray.forEach(e => {
     employeeChoice.push(e.id + ' - ' + e.last_name + ', ' + e.first_name);
   });
-  log(employeeChoice, '\n');
   const employeeID = await inquirer.prompt({
     type: 'list',
     name: 'employeeName',
@@ -218,12 +211,8 @@ const getEmployeeID = async (arr) => {
     choices: employeeChoice, 
   })
   .then((res) => {
-    log('the response is: ', res, '\n')
-    // addEmployee(role, parseInt(answer.managerName));
-    // log('function to call what roles list to change to');
     getRoleListUpdate(res.employeeName);
     });
-  // });
 }
 
 const getEmployeeList = () => {
@@ -232,7 +221,6 @@ const getEmployeeList = () => {
     if (err) throw (err);
     let employeeList = [];
     employeeList.push(res);
-    // log(employeeList, '\n');
     getEmployeeID(employeeList);
   });
 }
